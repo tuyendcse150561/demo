@@ -1,3 +1,7 @@
+import sys
+sys.path.append('~/demo/generation')
+sys.path.append('~/demo/generation/sd3d')
+
 import os
 from dataclasses import dataclass, field
 from typing import Any, List, Literal, Optional, Tuple, Union
@@ -14,14 +18,11 @@ from PIL import Image
 from safetensors.torch import load_model
 from torch import Tensor
 
-import sys
-sys.path.append('/root/demo/generation')
-sys.path.append('/root/demo/generation/sd3d')
-sys.path.append('/root/demo/generation/sd3d/models')
+from .texture_baker import TextureBaker
 
-from models.isosurface import MarchingTetrahedraHelper
-from models.mesh import Mesh
-from models.utils import (
+from sf3d.models.isosurface import MarchingTetrahedraHelper
+from sf3d.models.mesh import Mesh
+from sf3d.models.utils import (
     BaseModule,
     ImageProcessor,
     convert_data,
@@ -32,9 +33,9 @@ from models.utils import (
     normalize,
     scale_tensor,
 )
-from utils import create_intrinsic_from_fov_deg, default_cond_c2w
+from sf3d.utils import create_intrinsic_from_fov_deg, default_cond_c2w
 
-from texture_baker import TextureBaker
+
 
 
 class SF3D(BaseModule):
