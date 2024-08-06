@@ -1,3 +1,6 @@
+import sys
+sys.path.append('../sd3d/sf3d')
+
 from typing import Any
 
 import numpy as np
@@ -5,7 +8,7 @@ import rembg
 import torch
 from PIL import Image
 
-import .models.utils as sf3d_utils
+import models.utils as sf3d_utils
 
 
 def create_intrinsic_from_fov_deg(fov_deg: float, cond_height: int, cond_width: int):
