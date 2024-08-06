@@ -121,7 +121,7 @@ class Stable3D():
             image = image.convert("RGBA")
         # remove background
         image = remove_background(
-                image, rembg_session
+                image, self.rembg_session
             )
         image = resize_foreground(image, self.foreground_ratio)
 
