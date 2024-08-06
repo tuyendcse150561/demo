@@ -271,8 +271,8 @@ def test_gen(prompt: str) -> BytesIO:
     start_time = time()
     print("Trying to get image from diffusers")
     print('prompt:', prompt)
-    print('image:', type(image))
     image = get_img_from_prompt(prompt)
+    print('image:', type(image))
     # convert to PIL image
     img = Image.fromarray(image)
     print(f"[INFO] It took: {(time() - start_time)} secs")
