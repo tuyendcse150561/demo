@@ -14,6 +14,9 @@ from PIL import Image
 from safetensors.torch import load_model
 from torch import Tensor
 
+import sys
+sys.path.append('..')
+
 from sf3d.models.isosurface import MarchingTetrahedraHelper
 from sf3d.models.mesh import Mesh
 from sf3d.models.utils import (
