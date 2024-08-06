@@ -1,5 +1,8 @@
 import sys
-sys.path.append('../sd3d/sf3d')
+sys.path.append('/root/demo/generation/sd3d')
+sys.path.append('/root/demo/generation/sd3d/sf3d')
+
+print(sys.path)
 
 from typing import Any
 
