@@ -5,8 +5,8 @@ import torch.nn as nn
 from jaxtyping import Float
 from torch import Tensor
 
-from sf3d.models.network import get_activation
-from sf3d.models.utils import BaseModule
+from ...models.network import get_activation
+from ...models.utils import BaseModule
 
 
 @dataclass

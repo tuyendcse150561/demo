@@ -10,7 +10,7 @@ from torch import Tensor
 from torch.autograd import Function
 from torch.cuda.amp import custom_bwd, custom_fwd
 
-from sf3d.models.utils import BaseModule, normalize
+from ..models.utils import BaseModule, normalize
 
 
 class PixelShuffleUpsampleNetwork(BaseModule):
