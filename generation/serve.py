@@ -194,7 +194,7 @@ async def generate(
 
 def get_img_from_prompt(prompt:str=""):
     data = diffusers.sample(SampleInput(prompt=prompt))
-    return np.array(data["image"])
+    return data
 
 async def _generate(prompt: str) -> BytesIO:
     try:
@@ -202,13 +202,13 @@ async def _generate(prompt: str) -> BytesIO:
         print("Trying to get image from diffusers")
         image = get_img_from_prompt(prompt)
         # convert to PIL image
-        img = Image.fromarray(image)
+        # print('image:', type(image)) = Image.fromarray(image)
         print(f"[INFO] It took: {(time() - start_time)} secs")
         # gaussian_processor = GaussianProcessor.GaussianProcessor(opt, prompt="", base64_img = img)
         # processed_data = gaussian_processor.train(models, opt.iters)
 
         print("Trying to gen image 3d!")
-        mesh, glob_dict = stable3d.generate_3d(img)
+        mesh, glob_dict = stable3d.generate_3d(image)
         # convert to ply and load to buffer
         buffer = BytesIO()
         mesh.save_ply(buffer)
@@ -274,13 +274,13 @@ def test_gen(prompt: str) -> BytesIO:
     image = get_img_from_prompt(prompt)
     print('image:', type(image))
     # convert to PIL image
-    img = Image.fromarray(image)
+    # img = Image.fromarray(image)
     print(f"[INFO] It took: {(time() - start_time)} secs")
     # gaussian_processor = GaussianProcessor.GaussianProcessor(opt, prompt="", base64_img = img)
     # processed_data = gaussian_processor.train(models, opt.iters)
 
     print("Trying to gen image 3d!")
-    mesh, glob_dict = stable3d.generate_3d(img)
+    mesh, glob_dict = stable3d.generate_3d(image)
     # convert to ply and load to buffer
     buffer = BytesIO()
     mesh.save_ply(buffer)
