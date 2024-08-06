@@ -194,7 +194,7 @@ async def generate(
 
 def get_img_from_prompt(prompt:str=""):
     data = diffusers.sample(SampleInput(prompt=prompt))
-    return data["image"]
+    return np.array(data["image"])
 
 async def _generate(prompt: str) -> BytesIO:
     try:
@@ -267,29 +267,31 @@ async def generate_video(
     return StreamingResponse(content=buffer, media_type="video/mp4")
 
 def test_gen(prompt: str) -> BytesIO:
-    try:
-        start_time = time()
-        print("Trying to get image from diffusers")
-        image = get_img_from_prompt(prompt)
-        # convert to PIL image
-        img = Image.fromarray(image)
-        print(f"[INFO] It took: {(time() - start_time)} secs")
-        # gaussian_processor = GaussianProcessor.GaussianProcessor(opt, prompt="", base64_img = img)
-        # processed_data = gaussian_processor.train(models, opt.iters)
+    # try:
+    start_time = time()
+    print("Trying to get image from diffusers")
+    print('prompt:', prompt)
+    print('image:', type(image))
+    image = get_img_from_prompt(prompt)
+    # convert to PIL image
+    img = Image.fromarray(image)
+    print(f"[INFO] It took: {(time() - start_time)} secs")
+    # gaussian_processor = GaussianProcessor.GaussianProcessor(opt, prompt="", base64_img = img)
+    # processed_data = gaussian_processor.train(models, opt.iters)
 
-        print("Trying to gen image 3d!")
-        mesh, glob_dict = stable3d.generate_3d(img)
-        # convert to ply and load to buffer
-        buffer = BytesIO()
-        mesh.save_ply(buffer)
-        buffer.seek(0)
-        # hdf5_loader = HDF5Loader.HDF5Loader()
-        # buffer = hdf5_loader.pack_point_cloud_to_io_buffer(*processed_data)
-        print(f"[INFO] It took: {(time() - start_time)} secs")
-        return buffer
-    except Exception as e:
-        print(e)
-        return ""
+    print("Trying to gen image 3d!")
+    mesh, glob_dict = stable3d.generate_3d(img)
+    # convert to ply and load to buffer
+    buffer = BytesIO()
+    mesh.save_ply(buffer)
+    buffer.seek(0)
+    # hdf5_loader = HDF5Loader.HDF5Loader()
+    # buffer = hdf5_loader.pack_point_cloud_to_io_buffer(*processed_data)
+    print(f"[INFO] It took: {(time() - start_time)} secs")
+    return buffer
+    # except Exception as e:
+    #     print(e)
+    #     return ""
 
 if __name__ == "__main__":
     # uvicorn.run(app, host="0.0.0.0", port=args.port)
