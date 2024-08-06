@@ -14,7 +14,7 @@ huggingface_hub==0.19.4
 diffusers==0.24.0
 accelerate==0.24.1
 # transformers==4.38.0
-# rembg[gpu,cli]==2.0.49
+rembg[gpu,cli]==2.0.49
 xformers==0.0.23
 gradio==4.19.2
 open-clip-torch==2.24.0
@@ -30,7 +30,7 @@ slangtorch==1.2.2
 trimesh==4.4.1
 numpy==1.26.4
 huggingface-hub==0.23.4
-rembg[gpu,cli]]==2.0.57
+# rembg[gpu,cli]]==2.0.57
 git+https://github.com/vork/PyNanoInstantMeshes.git
 gpytoolbox==0.2.0
 huggingface_hub[cli]
