@@ -15,8 +15,9 @@ from safetensors.torch import load_model
 from torch import Tensor
 
 import sys
-sys.path.append('../')
-sys.path.append('../../')
+sys.path.append('/root/demo/generation')
+sys.path.append('/root/demo/generation/sd3d')
+sys.path.append('/root/demo/generation/sd3d/models')
 
 from models.isosurface import MarchingTetrahedraHelper
 from models.mesh import Mesh
@@ -33,7 +34,7 @@ from models.utils import (
 )
 from utils import create_intrinsic_from_fov_deg, default_cond_c2w
 
-from .texture_baker import TextureBaker
+from texture_baker import TextureBaker
 
 
 class SF3D(BaseModule):
