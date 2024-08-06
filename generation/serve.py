@@ -93,8 +93,8 @@ class Stable3D():
         from PIL import Image
         from tqdm import tqdm
 
-        from stable3d.sf3d.system import SF3D
-        from stable3d.sf3d.utils import remove_background, resize_foreground
+        from stable-fast-3d.sf3d.system import SF3D
+        from stable-fast-3d.sf3d.utils import remove_background, resize_foreground
 
         self.device = "cuda:0"
         self.pretrained_model = "stabilityai/stable-fast-3d"
