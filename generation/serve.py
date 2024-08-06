@@ -266,35 +266,34 @@ async def generate_video(
 
     return StreamingResponse(content=buffer, media_type="video/mp4")
 
-def test_gen(prompt: str) -> BytesIO:
-    # try:
-    start_time = time()
-    print("Trying to get image from diffusers")
-    print('prompt:', prompt)
-    image = get_img_from_prompt(prompt)
-    print('image:', type(image))
-    # convert to PIL image
-    # img = Image.fromarray(image)
-    time_2d = time() - start_time
-    print(f"[INFO] It took: {(time_2d)} secs")
-    # gaussian_processor = GaussianProcessor.GaussianProcessor(opt, prompt="", base64_img = img)
-    # processed_data = gaussian_processor.train(models, opt.iters)
+def test_gen(prompt):
+    total_time = []
+    for prt in prompt:
+        start_time = time()
+        print("Trying to get image from diffusers")
+        print('prompt:', prt)
+        image = get_img_from_prompt(prt)
+        print('image:', type(image))
+        # convert to PIL image
+        # img = Image.fromarray(image)
+        time_2d = time() - start_time
+        print(f"[INFO] It took: {(time_2d)} secs")
+        # gaussian_processor = GaussianProcessor.GaussianProcessor(opt, prompt="", base64_img = img)
+        # processed_data = gaussian_processor.train(models, opt.iters)
 
-    print("Trying to gen image 3d!")
-    mesh, glob_dict = stable3d.generate_3d(image)
-    # convert to ply and load to buffer
-    buffer = BytesIO()
-    # hdf5_loader = HDF5Loader.HDF5Loader()
-    # buffer = hdf5_loader.pack_point_cloud_to_io_buffer(*processed_data)
-    time_3d = time() - start_time
-    print(f"[INFO] It took: {time_3d} secs")
-    # print total time:
-    print(f"[INFO] Total time: {time_3d + time_2d} secs")
-    
-    print(type(mesh))
-    print(mesh)
+        print("Trying to gen image 3d!")
+        mesh, glob_dict = stable3d.generate_3d(image)
+        # convert to ply and load to buffer
+        buffer = BytesIO()
+        # hdf5_loader = HDF5Loader.HDF5Loader()
+        # buffer = hdf5_loader.pack_point_cloud_to_io_buffer(*processed_data)
+        time_3d = time() - start_time
+        print(f"[INFO] It took: {time_3d} secs")
+        # print total time:
+        print(f"[INFO] Total time: {time_3d + time_2d} secs")
+        total_time.append(time_3d + time_2d)
+    print(f"[INFO] Average time: {np.mean(total_time)} secs")
 
-    return buffer
 
     # except Exception as e:
     #     print(e)
@@ -302,4 +301,16 @@ def test_gen(prompt: str) -> BytesIO:
 
 if __name__ == "__main__":
     # uvicorn.run(app, host="0.0.0.0", port=args.port)
-    buffer = test_gen("red metal stool with rounded seat")
+    list_prompts = [
+        "red metal stool with rounded seat",
+        "teal lego butterfly with open wings",
+        "cybernetic shotgun, neon lights, mechanical stock",
+        "shimmering metallic ore samples",
+        "vintage radio with green and black design",
+        "tall, slender poplar tree with silver bark",
+        "moss-covered tree stump with mushrooms",
+        "green and gray survival knife with hollow handle",
+        "thick-trunked teal bamboo tree",
+        "earthy didgeridoo with tribal patterns"
+    ]
+    buffer = test_gen(list_prompts)
