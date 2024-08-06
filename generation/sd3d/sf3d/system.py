@@ -16,6 +16,7 @@ from torch import Tensor
 
 import sys
 sys.path.append('../')
+sys.path.append('../../')
 
 from sf3d.models.isosurface import MarchingTetrahedraHelper
 from sf3d.models.mesh import Mesh
