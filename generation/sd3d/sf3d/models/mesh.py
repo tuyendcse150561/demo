@@ -11,8 +11,8 @@ import trimesh
 from jaxtyping import Float, Integer
 from torch import Tensor
 
-from sf3d.box_uv_unwrap import box_projection_uv_unwrap
-from sf3d.models.utils import dot
+from ..box_uv_unwrap import box_projection_uv_unwrap
+from ..models.utils import dot
 
 
 class Mesh:
