@@ -27,7 +27,7 @@ from huggingface_hub import hf_hub_download
 
 def get_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--port", type=int, default=10006)
+    parser.add_argument("--port", type=int, default=8093)
     parser.add_argument("--config", default="configs/image_sai.yaml")
     return parser.parse_args()
 
@@ -103,9 +103,9 @@ class Stable3D():
         self.remesh_option = "none"
         self.batch_size = 1
         self.model = SF3D.from_pretrained(
-        args.pretrained_model,
-        config_name="config.yaml",
-        weight_name="model.safetensors",
+        self.pretrained_model,
+        config_name = "config.yaml",
+        weight_name = "model.safetensors",
     )
         self.model.to(self.device)
         self.model.eval()
@@ -161,7 +161,7 @@ async def generate(
     best_buffer = None
 
     for i in range(10):
-        buffer = await _generate(models, config, prompt)
+        buffer = await _generate(prompt)
         buffer = base64.b64encode(buffer.getbuffer()).decode("utf-8")
 
         response = requests.post("http://localhost:8094/validate/", json={"prompt": prompt, "data": buffer})
@@ -195,7 +195,7 @@ def get_img_from_prompt(prompt:str=""):
     data = diffusers.sample(SampleInput(prompt=prompt))
     return data["image"]
 
-async def _generate(models: list, opt: OmegaConf, prompt: str) -> BytesIO:
+async def _generate(prompt: str) -> BytesIO:
     try:
         start_time = time()
         print("Trying to get image from diffusers")
@@ -265,6 +265,33 @@ async def generate_video(
 
     return StreamingResponse(content=buffer, media_type="video/mp4")
 
+def test_gen(prompt: str) -> BytesIO:
+    try:
+        start_time = time()
+        print("Trying to get image from diffusers")
+        image = get_img_from_prompt(prompt)
+        # convert to PIL image
+        img = Image.fromarray(image)
+        print(f"[INFO] It took: {(time() - start_time)} secs")
+        # gaussian_processor = GaussianProcessor.GaussianProcessor(opt, prompt="", base64_img = img)
+        # processed_data = gaussian_processor.train(models, opt.iters)
+
+        print("Trying to gen image 3d!")
+        mesh, glob_dict = stable3d.generate_3d(img)
+        # convert to ply and load to buffer
+        buffer = BytesIO()
+        mesh.save_ply(buffer)
+        buffer.seek(0)
+        # hdf5_loader = HDF5Loader.HDF5Loader()
+        # buffer = hdf5_loader.pack_point_cloud_to_io_buffer(*processed_data)
+        print(f"[INFO] It took: {(time() - start_time)} secs")
+        return buffer
+    except Exception as e:
+        print(e)
+        return ""
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=args.port)
+    # uvicorn.run(app, host="0.0.0.0", port=args.port)
+    buffer = test_gen("red metal stool with rounded seat")
+    with open("test.ply", "wb") as f:
+        f.write(buffer.getvalue())
