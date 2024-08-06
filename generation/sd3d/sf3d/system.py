@@ -20,9 +20,9 @@ from torch import Tensor
 
 from .texture_baker import TextureBaker
 
-from sf3d.models.isosurface import MarchingTetrahedraHelper
-from sf3d.models.mesh import Mesh
-from sf3d.models.utils import (
+from .models.isosurface import MarchingTetrahedraHelper
+from .models.mesh import Mesh
+from .models.utils import (
     BaseModule,
     ImageProcessor,
     convert_data,
@@ -33,7 +33,7 @@ from sf3d.models.utils import (
     normalize,
     scale_tensor,
 )
-from sf3d.utils import create_intrinsic_from_fov_deg, default_cond_c2w
+from .utils import create_intrinsic_from_fov_deg, default_cond_c2w
 
 
 

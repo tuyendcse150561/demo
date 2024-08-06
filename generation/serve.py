@@ -25,6 +25,17 @@ from pydantic import BaseModel
 from io import BytesIO
 from huggingface_hub import hf_hub_download
 
+
+import os
+
+import rembg
+import torch
+from PIL import Image
+from tqdm import tqdm
+
+from sd3d.sf3d.system import SF3D
+from sd3d.sf3d.utils import remove_background, resize_foreground
+
 def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--port", type=int, default=8093)
@@ -86,16 +97,6 @@ class DiffUsers:
 class Stable3D():
     def __init__(self):
         print('setting up stable 3d')
-        import os
-
-        import rembg
-        import torch
-        from PIL import Image
-        from tqdm import tqdm
-
-        from sd3d.sf3d.system import SF3D
-        from sd3d.sf3d.utils import remove_background, resize_foreground
-
         self.device = "cuda:0"
         self.pretrained_model = "stabilityai/stable-fast-3d"
         self.foreground_ratio = 0.85
