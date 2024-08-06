@@ -42,7 +42,7 @@ class SampleInput(BaseModel):
 class DiffUsers:
     def __init__(self):
 
-        print("setting up model")
+        print("setting up 2d diff model")
         self.device = torch.device("cuda" if torch.cuda.is_available() else "mps")
 
         ## n step lora
@@ -54,7 +54,7 @@ class DiffUsers:
         self.guidance_scale = 6
 
         self._lock = threading.Lock()
-        print("model setup done")
+        print("model setup 2d diff done")
 
     def generate_image(self, prompt: str):
         generator = torch.Generator(self.device)
